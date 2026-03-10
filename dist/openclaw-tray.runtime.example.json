@@ -1,0 +1,9 @@
+{
+  "runtimeRoot": "D:/Programs/*/lobster-runtime",
+  "openClawRoot": "D:/Programs/*/openclaw",
+  "gatewayPort": 18789,
+  "startupTaskName": "OpenClaw Tray",
+  "controlPanelPath": "/openclaw/"
+}
+
+

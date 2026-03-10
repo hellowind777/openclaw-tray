@@ -3,8 +3,11 @@
 *.log
 *.tmp
 *.bak
+*.cs
+/src/
+/scripts/
 /bin/
 /obj/
-/dist/
 /.vs/
-/config/openclawtp.runtime.json
+/config/openclaw-tray.runtime.json
+/dist/openclaw-tray.runtime.json
