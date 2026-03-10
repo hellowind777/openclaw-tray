@@ -1,0 +1,10 @@
+*.user
+*.suo
+*.log
+*.tmp
+*.bak
+/bin/
+/obj/
+/dist/
+/.vs/
+/config/openclawtp.runtime.json

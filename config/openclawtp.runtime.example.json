@@ -1,0 +1,7 @@
+{
+  "runtimeRoot": "../your-runtime-root",
+  "openClawRoot": "../your-openclaw-root",
+  "gatewayPort": 18789,
+  "startupTaskName": "OpenClaw Native Tray",
+  "controlPanelPath": "/openclaw/"
+}
