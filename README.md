@@ -28,7 +28,7 @@
 ├─ .gitignore
 ├─ LICENSE
 ├─ openclaw-tray.exe
-├─ openclaw-tray.runtime.example.json
+├─ config.json
 └─ README.md
 ```
 
@@ -43,19 +43,9 @@
 至少拿这两个文件：
 
 - `openclaw-tray.exe`
-- `openclaw-tray.runtime.example.json`
+- `config.json`
 
-### 2. 改配置文件名
-
-把：
-
-- `openclaw-tray.runtime.example.json`
-
-改成：
-
-- `openclaw-tray.runtime.json`
-
-### 3. 填写你自己的路径
+### 2. 填写你自己的路径
 
 示例配置：
 
@@ -75,12 +65,12 @@
 - 请改成你自己的真实目录
 - 支持绝对路径，也支持相对路径
 
-### 4. 启动
+### 3. 启动
 
 把下面两个文件放在同一个目录：
 
 - `openclaw-tray.exe`
-- `openclaw-tray.runtime.json`
+- `config.json`
 
 然后双击 `openclaw-tray.exe` 即可。
 
@@ -127,7 +117,7 @@
 
 ## 配置项
 
-配置文件名：`openclaw-tray.runtime.json`
+配置文件名：`config.json`
 
 | 字段 | 类型 | 说明 |
 |---|---|---|
@@ -146,16 +136,16 @@
 ```text
 openclaw-tray/
 ├─ openclaw-tray.exe
-├─ openclaw-tray.runtime.example.json
+├─ config.json
 ├─ README.md
 └─ LICENSE
 ```
 
 如果你自己本地运行时需要真实配置，请复制：
 
-- `openclaw-tray.runtime.example.json` → `openclaw-tray.runtime.json`
+- `config.json`
 
-不要把包含真实路径或密钥的 `openclaw-tray.runtime.json` 提交回仓库。
+仓库中的 `config.json` 已做脱敏；如果你在本地填入真实路径或密钥，不要把修改后的 `config.json` 提交回仓库。
 
 ---
 
