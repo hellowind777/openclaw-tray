@@ -9,5 +9,6 @@
 /bin/
 /obj/
 /.vs/
-/config/openclaw-tray.runtime.json
-/dist/openclaw-tray.runtime.json
+/openclaw-tray.runtime.json
+/openclaw-tray.log
+/openclaw-tray.pdb

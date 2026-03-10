@@ -25,13 +25,10 @@
 
 ```text
 .
-├─ dist/
-│  ├─ openclaw-tray.exe
-│  └─ openclaw-tray.runtime.example.json
-├─ config/
-│  └─ openclaw-tray.runtime.example.json
 ├─ .gitignore
 ├─ LICENSE
+├─ openclaw-tray.exe
+├─ openclaw-tray.runtime.example.json
 └─ README.md
 ```
 
@@ -45,8 +42,8 @@
 
 至少拿这两个文件：
 
-- `dist/openclaw-tray.exe`
-- `dist/openclaw-tray.runtime.example.json`
+- `openclaw-tray.exe`
+- `openclaw-tray.runtime.example.json`
 
 ### 2. 改配置文件名
 
@@ -139,6 +136,26 @@
 | `gatewayPort` | `number` | 本地网关端口，默认 `18789` |
 | `startupTaskName` | `string` | Windows 计划任务名称 |
 | `controlPanelPath` | `string` | 控制面板路径，默认 `/openclaw/` |
+
+---
+
+## 目录结构
+
+发布包根目录直接放置可执行文件和配置模板：
+
+```text
+openclaw-tray/
+├─ openclaw-tray.exe
+├─ openclaw-tray.runtime.example.json
+├─ README.md
+└─ LICENSE
+```
+
+如果你自己本地运行时需要真实配置，请复制：
+
+- `openclaw-tray.runtime.example.json` → `openclaw-tray.runtime.json`
+
+不要把包含真实路径或密钥的 `openclaw-tray.runtime.json` 提交回仓库。
 
 ---
 
