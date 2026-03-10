@@ -328,7 +328,7 @@ internal sealed class OpenClawTrayApp : ApplicationContext
         StartupTaskInfoSnapshot startup = GetStartupTaskSnapshot();
         bool enabled = startup.Registered && startup.Enabled;
         this.startupToggleItem.Checked = enabled;
-        this.startupToggleItem.Text = enabled ? "已启用开机启动（Tray + OpenClaw）" : "启用开机启动（Tray + OpenClaw）";
+        this.startupToggleItem.Text = "开机启动（Tray + OpenClaw）";
     }
 
     private void ToggleStartupRegistration()
