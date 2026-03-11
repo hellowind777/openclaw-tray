@@ -4,6 +4,7 @@
 *.tmp
 *.bak
 *.cs
+*.ps1
 /src/
 /scripts/
 /bin/
