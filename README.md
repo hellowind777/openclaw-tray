@@ -51,11 +51,6 @@ Startup behavior:
   - Requires administrator rights when enabling or disabling.
   - Manual tray start, stop, and restart actions still control OpenClaw itself, not the Windows service.
 
-Legacy compatibility:
-
-- If an older deployment still has the legacy `OpenClawService` registered to the same `openclaw-service.exe`, the latest tray and CLI can still recognize it correctly.
-- The next elevated install or uninstall operation migrates that legacy service registration to `OpenClawTrayStartupService`.
-
 Default delays:
 
 - OpenClaw startup service delay: `90` seconds
