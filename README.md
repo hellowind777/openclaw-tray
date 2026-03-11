@@ -49,6 +49,7 @@ Startup behavior:
   - Installs the `OpenClaw` startup service.
   - Intended for boot-time delayed startup before login.
   - Requires administrator rights when enabling or disabling.
+  - Manual tray start, stop, and restart actions still control OpenClaw itself, not the Windows service.
 
 Default delays:
 
