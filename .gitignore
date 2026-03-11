@@ -12,3 +12,8 @@
 /.vs/
 /openclaw-tray.log
 /openclaw-tray.pdb
+/openclaw-tray-cli.pdb
+/openclaw-service.pdb
+/openclaw-service.log
+/startup-settings.json
+/startup-agent-state.json

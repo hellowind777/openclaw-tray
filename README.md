@@ -1,176 +1,157 @@
 # OpenClaw Tray
 
-> Native Windows tray companion for local OpenClaw runtimes.
->
-> 只发布可执行文件、配置模板和说明文档，不公开源码。
+Windows native tray companion for portable OpenClaw deployments.
 
-[![Windows](https://img.shields.io/badge/Windows-10%2F11-0078D4?logo=windows&logoColor=white)](#)
-[![Tray](https://img.shields.io/badge/UX-Native%20Tray-1f883d)](#)
-[![License](https://img.shields.io/badge/License-MIT-black)](LICENSE)
+This repository is a distribution repository. It publishes executables, a sanitized configuration template, and documentation only. Source code, build scripts, local logs, and machine-specific state are not included.
 
-`OpenClaw Tray` 是一个面向 Windows 的本地托盘程序，用来托管本机 `OpenClaw` 运行时：
-
-- 托盘里直接查看运行状态
-- 右键启动 / 停止 / 重启 OpenClaw
-- 一键打开控制面板、日志目录、状态窗口
-- 支持 `开机启动（Tray + OpenClaw）`
-- 自动识别本地 `OpenClaw` 和 runtime 路径
-- 配置文件可手动覆盖路径和端口
-
----
-
-## 仓库内容
-
-这个仓库只保留分发所需文件：
+## Included Files
 
 ```text
 .
-├─ .gitignore
 ├─ LICENSE
-├─ openclaw-tray.exe
+├─ README.md
 ├─ config.json
-└─ README.md
+├─ openclaw-service.exe
+├─ openclaw-tray-cli.exe
+└─ openclaw-tray.exe
 ```
 
-不包含源码，不包含构建脚本，也不包含任何私有运行数据或密钥。
+## What It Does
 
----
+- Shows a native Windows tray icon for OpenClaw.
+- Supports separate startup controls for:
+  - `开机启动（托盘）`
+  - `开机启动（OpenClaw，管理员权限）`
+- Lets users start, stop, and restart OpenClaw from the tray.
+- Supports non-login startup for OpenClaw through a Windows service.
+- Provides a CLI entry for automation, remote control, and external invocation.
+- Keeps tray UI and CLI separate so the tray no longer shows a console window.
 
-## 快速使用
-
-### 1. 下载文件
-
-至少拿这两个文件：
+## Startup Architecture
 
 - `openclaw-tray.exe`
-- `config.json`
+  - GUI tray process only.
+  - Runs without a console window.
+- `openclaw-tray-cli.exe`
+  - Command-line control entry.
+  - Suitable for scripts, automation, or external callers.
+- `openclaw-service.exe`
+  - `OpenClaw` startup service host.
+  - Used for delayed, pre-login startup scenarios.
 
-### 2. 填写你自己的路径
+Startup behavior:
 
-示例配置：
+- `开机启动（托盘）`
+  - Registers a logon task for the tray UI.
+  - Recommended when users only want the tray after login.
+- `开机启动（OpenClaw，管理员权限）`
+  - Installs the `OpenClaw` startup service.
+  - Intended for boot-time delayed startup before login.
+  - Requires administrator rights when enabling or disabling.
+
+Default delays:
+
+- OpenClaw startup service delay: `90` seconds
+- Tray logon delay: `7` seconds
+
+When OpenClaw startup is enabled from an elevated tray session and OpenClaw is not already running, the tray now:
+
+1. Installs the startup service
+2. Starts the service host
+3. Starts OpenClaw immediately for the current session
+
+This avoids the previous behavior where startup was enabled but OpenClaw did not start right away.
+
+## Tray Status Semantics
+
+- Green badge: OpenClaw is running and healthy
+- Yellow badge: OpenClaw is starting
+- Red badge: OpenClaw start failed or is abnormal
+- Gray disabled icon with gray badge: OpenClaw is stopped
+
+## Recommended Folder Layout
+
+The default `config.json` assumes this layout:
+
+```text
+D:\Programs\
+├─ openclaw\
+└─ openclaw-data\
+   ├─ lobster-teams\
+   └─ openclaw-tray\
+```
+
+With the published `config.json`:
+
+- `runtimeRoot = ../lobster-teams`
+- `openClawRoot = ../../openclaw`
+
+If your layout differs, edit `config.json` accordingly.
+
+## Configuration
+
+`config.json`
 
 ```json
 {
-  "runtimeRoot": "<your-runtime-root>",
-  "openClawRoot": "<your-openclaw-root>",
-  "gatewayPort": 0,
-  "startupTaskName": "OpenClaw Tray",
+  "runtimeRoot": "../lobster-teams",
+  "openClawRoot": "../../openclaw",
+  "gatewayPort": 18789,
+  "serviceName": "OpenClawService",
+  "trayTaskName": "OpenClaw Tray UI",
+  "serviceStartupDelaySeconds": 90,
+  "trayLogonDelaySeconds": 7,
   "controlPanelPath": "/openclaw/"
 }
 ```
 
-说明：
+Fields:
 
-- 尖括号占位符需要替换成你自己的真实路径
-- `gatewayPort` 写 `0` 表示使用程序内置默认端口
-- 支持绝对路径，也支持相对路径
+- `runtimeRoot`: runtime directory containing `scripts`, `env`, and `state`
+- `openClawRoot`: OpenClaw application directory
+- `gatewayPort`: local gateway port
+- `serviceName`: Windows service name for OpenClaw startup
+- `trayTaskName`: scheduled task name for tray logon startup
+- `serviceStartupDelaySeconds`: delayed startup time for boot-time OpenClaw service execution
+- `trayLogonDelaySeconds`: delayed startup time for tray display after login
+- `controlPanelPath`: relative control panel path
 
-### 3. 启动
+## Runtime Requirements
 
-把下面两个文件放在同一个目录：
-
-- `openclaw-tray.exe`
-- `config.json`
-
-然后双击 `openclaw-tray.exe` 即可。
-
----
-
-## 开机启动说明
-
-托盘菜单里的：
-
-- `开机启动（Tray + OpenClaw）`
-
-就是总开关。
-
-启用后会：
-
-- 登录 Windows 自动启动托盘
-- 托盘启动后自动拉起 OpenClaw 服务
-
----
-
-## 运行时目录要求
-
-这个托盘默认对接兼容的本地 runtime 目录。至少需要下面这些文件：
+The runtime directory must contain compatible scripts such as:
 
 ```text
-<runtimeRoot>/
-├─ env/
+<runtimeRoot>\
+├─ env\
 │  └─ lobster-teams.local.ps1
-├─ scripts/
+├─ scripts\
 │  ├─ start-lobster-teams-background.ps1
 │  ├─ stop-lobster-teams.ps1
 │  ├─ restart-lobster-teams.ps1
 │  └─ status-lobster-teams.ps1
-└─ state/
+└─ state\
    └─ gateway-process.json
 ```
 
-也就是说：
+## CLI Examples
 
-- 托盘负责桌面入口和状态承载
-- 真实 runtime 负责启动逻辑和配置注入
-
----
-
-## 配置项
-
-配置文件名：`config.json`
-
-| 字段 | 类型 | 说明 |
-|---|---|---|
-| `runtimeRoot` | `string` | 本地运行时目录 |
-| `openClawRoot` | `string` | OpenClaw 程序目录 |
-| `gatewayPort` | `number` | 本地网关端口，填 `0` 表示使用程序内置默认值 |
-| `startupTaskName` | `string` | Windows 计划任务名称 |
-| `controlPanelPath` | `string` | 控制面板路径，默认 `/openclaw/` |
-
----
-
-## 目录结构
-
-发布包根目录直接放置可执行文件和配置模板：
-
-```text
-openclaw-tray/
-├─ openclaw-tray.exe
-├─ config.json
-├─ README.md
-└─ LICENSE
+```powershell
+.\openclaw-tray-cli.exe --status
+.\openclaw-tray-cli.exe --status --json
+.\openclaw-tray-cli.exe --start-openclaw
+.\openclaw-tray-cli.exe --stop-openclaw
+.\openclaw-tray-cli.exe --restart-openclaw
+.\openclaw-tray-cli.exe --enable-tray-autostart --set-tray-delay 7
+.\openclaw-tray-cli.exe --enable-openclaw-autostart --set-openclaw-delay 90
 ```
 
-如果你自己本地运行时需要真实配置，请复制：
+## Notes
 
-- `config.json`
-
-仓库中的 `config.json` 已做脱敏；如果你在本地填入真实路径或密钥，不要把修改后的 `config.json` 提交回仓库。
-
----
-
-## FAQ
-
-### 这个仓库公开源码吗？
-不公开。这里只保留可运行文件和配置模板。
-
-### 它会帮我安装 OpenClaw 吗？
-不会。它只是本地托盘层，不是安装器。
-
-### 它能脱离 runtime 单独工作吗？
-不能。它需要兼容的本地 runtime 目录。
-
-### 可以改计划任务名称吗？
-可以，改 `startupTaskName` 即可。
-
----
+- This repository intentionally excludes source code and scripts.
+- `startup-settings.json` is local machine state and is not committed.
+- Administrator rights are required only when installing or uninstalling the OpenClaw startup service.
+- The service runs as `LocalService`, not `SYSTEM`, and does not require creating an extra local account.
 
 ## License
 
-MIT. See [`LICENSE`](LICENSE).
-
----
-
-## Star
-
-如果这个项目刚好解决了你“本地 OpenClaw 状态不透明、日志难找、没有托盘入口”的问题，欢迎点个 Star。
+MIT. See [LICENSE](LICENSE).
