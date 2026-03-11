@@ -73,24 +73,14 @@ During tray-triggered startup, the tray icon stays in the yellow starting state 
 - Red badge: OpenClaw start failed or is abnormal
 - Gray disabled icon with gray badge: OpenClaw is stopped
 
-## Recommended Folder Layout
+## Path Configuration
 
-The default `config.json` assumes this layout:
+The published `config.json` is fully sanitized. Replace the placeholder values with your own local paths:
 
-```text
-D:\Programs\
-├─ openclaw\
-└─ openclaw-data\
-   ├─ lobster-teams\
-   └─ openclaw-tray\
-```
+- `runtimeRoot = <runtime-root>`
+- `openClawRoot = <openclaw-root>`
 
-With the published `config.json`:
-
-- `runtimeRoot = ../lobster-teams`
-- `openClawRoot = ../../openclaw`
-
-If your layout differs, edit `config.json` accordingly.
+Both relative paths and absolute paths are supported.
 
 ## Configuration
 
@@ -98,8 +88,8 @@ If your layout differs, edit `config.json` accordingly.
 
 ```json
 {
-  "runtimeRoot": "../lobster-teams",
-  "openClawRoot": "../../openclaw",
+  "runtimeRoot": "<runtime-root>",
+  "openClawRoot": "<openclaw-root>",
   "gatewayPort": 0,
   "serviceName": "OpenClawService",
   "trayTaskName": "OpenClaw Tray UI",
@@ -119,6 +109,11 @@ Fields:
 - `serviceStartupDelaySeconds`: delayed startup time for boot-time OpenClaw service execution
 - `trayLogonDelaySeconds`: delayed startup time for tray display after login
 - `controlPanelPath`: relative control panel path
+
+Sanitization note:
+
+- The repository version of `config.json` does not contain any real machine path.
+- `gatewayPort = 0` means use the built-in default at runtime.
 
 ## Runtime Requirements
 

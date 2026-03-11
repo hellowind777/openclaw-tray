@@ -1,6 +1,6 @@
 {
-  "runtimeRoot": "../lobster-teams",
-  "openClawRoot": "../../openclaw",
+  "runtimeRoot": "<runtime-root>",
+  "openClawRoot": "<openclaw-root>",
   "gatewayPort": 0,
   "serviceName": "OpenClawService",
   "trayTaskName": "OpenClaw Tray UI",
