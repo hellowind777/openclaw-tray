@@ -1,7 +1,7 @@
 {
   "runtimeRoot": "../lobster-teams",
   "openClawRoot": "../../openclaw",
-  "gatewayPort": 18789,
+  "gatewayPort": 0,
   "serviceName": "OpenClawService",
   "trayTaskName": "OpenClaw Tray UI",
   "serviceStartupDelaySeconds": 90,

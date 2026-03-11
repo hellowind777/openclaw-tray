@@ -26,6 +26,7 @@ This repository is a distribution repository. It publishes executables, a saniti
 - Supports non-login startup for OpenClaw through a Windows service.
 - Provides a CLI entry for automation, remote control, and external invocation.
 - Keeps tray UI and CLI separate so the tray no longer shows a console window.
+- Supports turning desktop balloon notifications on or off.
 
 ## Startup Architecture
 
@@ -62,6 +63,8 @@ When OpenClaw startup is enabled from an elevated tray session and OpenClaw is n
 
 This avoids the previous behavior where startup was enabled but OpenClaw did not start right away.
 
+During tray-triggered startup, the tray icon stays in the yellow starting state and the menu entry changes to `OpenClaw 启动中...`, so users get clear progress feedback instead of a transient failure impression.
+
 ## Tray Status Semantics
 
 - Green badge: OpenClaw is running and healthy
@@ -96,7 +99,7 @@ If your layout differs, edit `config.json` accordingly.
 {
   "runtimeRoot": "../lobster-teams",
   "openClawRoot": "../../openclaw",
-  "gatewayPort": 18789,
+  "gatewayPort": 0,
   "serviceName": "OpenClawService",
   "trayTaskName": "OpenClaw Tray UI",
   "serviceStartupDelaySeconds": 90,
@@ -109,7 +112,7 @@ Fields:
 
 - `runtimeRoot`: runtime directory containing `scripts`, `env`, and `state`
 - `openClawRoot`: OpenClaw application directory
-- `gatewayPort`: local gateway port
+- `gatewayPort`: local gateway port, `0` means use the built-in default
 - `serviceName`: Windows service name for OpenClaw startup
 - `trayTaskName`: scheduled task name for tray logon startup
 - `serviceStartupDelaySeconds`: delayed startup time for boot-time OpenClaw service execution
@@ -143,6 +146,8 @@ The runtime directory must contain compatible scripts such as:
 .\openclaw-tray-cli.exe --restart-openclaw
 .\openclaw-tray-cli.exe --enable-tray-autostart --set-tray-delay 7
 .\openclaw-tray-cli.exe --enable-openclaw-autostart --set-openclaw-delay 90
+.\openclaw-tray-cli.exe --disable-desktop-notifications
+.\openclaw-tray-cli.exe --enable-desktop-notifications
 ```
 
 ## Notes
