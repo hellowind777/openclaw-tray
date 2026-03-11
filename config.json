@@ -2,7 +2,7 @@
   "runtimeRoot": "<runtime-root>",
   "openClawRoot": "<openclaw-root>",
   "gatewayPort": 0,
-  "serviceName": "OpenClawService",
+  "serviceName": "OpenClawTrayStartupService",
   "trayTaskName": "OpenClaw Tray UI",
   "serviceStartupDelaySeconds": 90,
   "trayLogonDelaySeconds": 7,

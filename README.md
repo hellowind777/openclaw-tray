@@ -37,7 +37,7 @@ This repository is a distribution repository. It publishes executables, a saniti
   - Command-line control entry.
   - Suitable for scripts, automation, or external callers.
 - `openclaw-service.exe`
-  - `OpenClaw` startup service host.
+  - `OpenClawTrayStartupService` startup service host.
   - Used for delayed, pre-login startup scenarios.
 
 Startup behavior:
@@ -46,10 +46,15 @@ Startup behavior:
   - Registers a logon task for the tray UI.
   - Recommended when users only want the tray after login.
 - `开机启动（OpenClaw，管理员权限）`
-  - Installs the `OpenClaw` startup service.
+  - Installs the `OpenClawTrayStartupService` startup service.
   - Intended for boot-time delayed startup before login.
   - Requires administrator rights when enabling or disabling.
   - Manual tray start, stop, and restart actions still control OpenClaw itself, not the Windows service.
+
+Legacy compatibility:
+
+- If an older deployment still has the legacy `OpenClawService` registered to the same `openclaw-service.exe`, the latest tray and CLI can still recognize it correctly.
+- The next elevated install or uninstall operation migrates that legacy service registration to `OpenClawTrayStartupService`.
 
 Default delays:
 
@@ -91,7 +96,7 @@ Both relative paths and absolute paths are supported.
   "runtimeRoot": "<runtime-root>",
   "openClawRoot": "<openclaw-root>",
   "gatewayPort": 0,
-  "serviceName": "OpenClawService",
+  "serviceName": "OpenClawTrayStartupService",
   "trayTaskName": "OpenClaw Tray UI",
   "serviceStartupDelaySeconds": 90,
   "trayLogonDelaySeconds": 7,
