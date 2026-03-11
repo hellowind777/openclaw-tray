@@ -51,9 +51,9 @@
 
 ```json
 {
-  "runtimeRoot": "D:/Programs/*/lobster-runtime",
-  "openClawRoot": "D:/Programs/*/openclaw",
-  "gatewayPort": 18789,
+  "runtimeRoot": "<your-runtime-root>",
+  "openClawRoot": "<your-openclaw-root>",
+  "gatewayPort": 0,
   "startupTaskName": "OpenClaw Tray",
   "controlPanelPath": "/openclaw/"
 }
@@ -61,8 +61,8 @@
 
 说明：
 
-- 这里的 `*` 是脱敏占位，不是固定值
-- 请改成你自己的真实目录
+- 尖括号占位符需要替换成你自己的真实路径
+- `gatewayPort` 写 `0` 表示使用程序内置默认端口
 - 支持绝对路径，也支持相对路径
 
 ### 3. 启动
@@ -123,7 +123,7 @@
 |---|---|---|
 | `runtimeRoot` | `string` | 本地运行时目录 |
 | `openClawRoot` | `string` | OpenClaw 程序目录 |
-| `gatewayPort` | `number` | 本地网关端口，默认 `18789` |
+| `gatewayPort` | `number` | 本地网关端口，填 `0` 表示使用程序内置默认值 |
 | `startupTaskName` | `string` | Windows 计划任务名称 |
 | `controlPanelPath` | `string` | 控制面板路径，默认 `/openclaw/` |
 
